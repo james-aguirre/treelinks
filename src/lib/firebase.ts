@@ -24,10 +24,12 @@ export const storage = getStorage();
 function userStore() {
 	let unsubscribe: () => void;
 
-	if (!auth) {
+	if (!auth || !globalThis.window) {
 		console.warn('Firebase auth not initialized');
 		const { subscribe } = writable<User | null>(null);
-		return subscribe;
+		return {
+			subscribe
+		};
 	}
 
 	const { subscribe } = writable(auth?.currentUser ?? null, (set) => {
@@ -36,7 +38,9 @@ function userStore() {
 		});
 		return () => unsubscribe();
 	});
-	return subscribe;
+	return {
+		subscribe
+	};
 }
 
 export const user = userStore();
