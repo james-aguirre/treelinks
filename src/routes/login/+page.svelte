@@ -18,5 +18,3 @@
 {:else}
   <button on:click={logInWithGoogle} class='btn'>Sign in with Google</button>
 {/if}
-
-<button on:click={logInWithGoogle} class="btn">Sign in with google</button>
