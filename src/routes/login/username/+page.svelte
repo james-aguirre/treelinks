@@ -23,7 +23,7 @@
 
         isAvailable = !isValid;
         isLoading = false;
-    }, 500);
+    }, 200);
 }
 
 
