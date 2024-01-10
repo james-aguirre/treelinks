@@ -11,7 +11,10 @@
     // regex checking username contains valid characters
     const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 
+    // reactive declarations re-run wheneever their values change
     $: isValid = username?.length > 2 && username.length < 16 && re.test(username);
+    $: isTouched = username.length > 0;
+    $: isTaken = isTouched && !isAvailable && !isLoading;
 
 
     async function checkAvailability(){;
