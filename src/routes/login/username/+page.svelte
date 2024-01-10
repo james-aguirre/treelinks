@@ -1,6 +1,6 @@
 <script lang="ts">
     import AuthCheck from '$lib/components/AuthCheck.svelte';
-    import { db, user } from '$lib/firebase';
+    import { db, user, userData } from '$lib/firebase';
     import { doc, getDoc, writeBatch } from 'firebase/firestore';
 
     let username='';
@@ -8,7 +8,7 @@
     let isAvailable=false;
     let debounceTimer: NodeJS.Timeout;
 
-    // regex checking username contains valid characters
+    // regex checking username contains alphanumeric characters only
     const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 
     // reactive declarations re-run wheneever their values change
@@ -63,7 +63,15 @@
 </script>
 
 <AuthCheck>
-    <h2>Username</h2>
+  {#if $userData.username}
+  <p class="text-lg">
+    Your username is <span class="text-success font-bold"
+      >@{$userData.username}</span
+    >
+  </p>
+  <p class="text-sm">(Usernames cannot be changed)</p>
+  <a class="btn btn-primary" href="/login/photo">Upload Profile Image</a>
+  {:else}
     <form class='w-2/5' on:submit|preventDefault={confirmUsername}>
         <input 
         type='text'
@@ -98,5 +106,5 @@
             {/if}
           </div>
     </form>
-  
-</AuthCheck>
+    {/if}
+  </AuthCheck>
