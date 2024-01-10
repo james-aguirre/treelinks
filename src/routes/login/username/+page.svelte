@@ -8,6 +8,12 @@
     let isAvailable=false;
     let debounceTimer: NodeJS.Timeout;
 
+    // regex checking username contains valid characters
+    const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+
+    $: isValid = username?.length > 2 && username.length < 16 && re.test(username);
+
+
     async function checkAvailability(){;
     isAvailable = false;
     isLoading = true;
