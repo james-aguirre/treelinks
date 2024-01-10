@@ -11,7 +11,7 @@
     // regex checking username contains alphanumeric characters only
     const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 
-    // reactive declarations re-run wheneever their values change
+    // reactive declarations re-run whenever their values change
     $: isValid = username?.length > 2 && username.length < 16 && re.test(username);
     $: isTouched = username.length > 0;
     $: isTaken = isTouched && !isAvailable && !isLoading;
@@ -38,7 +38,7 @@
 
     async function confirmUsername() {
     console.log("confirming username", username);
-    // make sure both refs succeed or fail together as a pair
+    // make sure both refs pass or fail together as a pair
     const batch = writeBatch(db);
     batch.set(doc(db, "usernames", username), { uid: $user?.uid });
     batch.set(doc(db, "users", $user!.uid), { 
@@ -51,7 +51,7 @@
           title: 'bar',
           url: 'https://github.com',
           icon: 'baz'
-        }
+        },
       ]
     });
 
@@ -72,6 +72,7 @@
   <p class="text-sm">(Usernames cannot be changed)</p>
   <a class="btn btn-primary" href="/login/photo">Upload Profile Image</a>
   {:else}
+
     <form class='w-2/5' on:submit|preventDefault={confirmUsername}>
         <input 
         type='text'

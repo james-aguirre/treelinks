@@ -61,7 +61,6 @@ export function docStore<T>(path: string) {
 
 		return () => unsubscribe();
 	});
-
 	return {
 		subscribe,
 		ref: docRef,
@@ -77,6 +76,9 @@ interface UserData {
 }
 
 export const userData: Readable<UserData | null> = derived(user, ($user, set) => {
-	if ($user) return docStore<UserData>(`users/${$user.uid}`).subscribe(set);
-	set(null);
+	if ($user) {
+		return docStore<UserData>(`users/${$user.uid}`).subscribe(set);
+	} else {
+		set(null);
+	}
 });
