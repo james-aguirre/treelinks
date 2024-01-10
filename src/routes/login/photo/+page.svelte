@@ -41,6 +41,10 @@ async function upload(e: any){
                 class="file-input file-input-bordered w-full max-w-xs"
                 accept="image/png, image/jpeg, image/gif, image/webp"
               />
+              {#if isUploading}
+                <p>Uploading...</p>
+                <progress class="progress progress-info w-56 mt-6" />
+              {/if}
             </div>
         </form>
 </AuthCheck>
