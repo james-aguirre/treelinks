@@ -26,6 +26,7 @@
   
     <p class="text-xl my-8">{data.bio ?? "no bio yet..."}</p>
     <ul class="list-none">
+    <!-- #each is sveltes html version of the forEach loop, @debug adds an automatic debugger in devtools -->
       {#each data.links as item}
         {@debug item}
       {/each}
