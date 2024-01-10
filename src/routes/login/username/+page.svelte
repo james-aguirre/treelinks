@@ -13,18 +13,42 @@
     isLoading = true;
     clearTimeout(debounceTimer);
 
+
 // prevent sending a request until the user stops typing
     debounceTimer = setTimeout(async () => {
         console.log('Checking availability of', username);
+
         const userRef = doc(db, 'usernames', username);
         const isValid = await getDoc(userRef).then((doc) => doc.exists());
+
         isAvailable = !isValid;
         isLoading = false;
     }, 500);
-    }
+}
+
 
     async function confirmUsername() {
+    console.log("confirming username", username);
+    // make sure both refs succeed or fail together as a pair
+    const batch = writeBatch(db);
+    batch.set(doc(db, "usernames", username), { uid: $user?.uid });
+    batch.set(doc(db, "users", $user!.uid), { 
+      username, 
+      photoURL: $user?.photoURL ?? null,
+      published: true,
+      bio: 'foo',
+      links: [
+        {
+          title: 'bar',
+          url: 'https://github.com',
+          icon: 'baz'
+        }
+      ]
+    });
 
+    await batch.commit();
+    username = '';
+    isAvailable=false;
     };
 
 </script>
