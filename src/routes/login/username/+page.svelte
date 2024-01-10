@@ -71,9 +71,32 @@
         class='input w-full'
         bind:value={username}
         on:input={checkAvailability}
+        class:input-error={(isValid && isTouched)}
+        class:input-warning={isTaken}
+        class:input-success={isAvailable && isValid && !isLoading}
         />
 
-        <p>Is available? {isAvailable}</p>
-        <button class='btn btn-success'>Confirm username @{username}</button>
+        <div class="my-4 min-h-16 px-8 w-full">
+            {#if isLoading}
+              <p class="text-secondary">Checking availability of @{username}...</p>
+            {/if}
+        
+            {#if !isValid && isTouched}
+              <p class="text-error text-sm">
+               username must be 3-16 characters long, alphanumeric only
+              </p>
+            {/if}
+        
+            {#if isValid && !isAvailable && !isLoading}
+              <p class="text-warning text-sm">
+                @{username} is not available
+              </p>
+            {/if}
+        
+            {#if isAvailable}
+              <button class="btn btn-success">Confirm username @{username} </button>
+            {/if}
+          </div>
     </form>
+  
 </AuthCheck>
