@@ -5,12 +5,13 @@ import { error } from '@sveltejs/kit';
 
 export const load = (async ({ params }) => {
 	const collectionRef = collection(db, 'users');
+	// query db for username matching the one in the url
 	const q = query(collectionRef, where('username', '==', params.username), limit(1));
 	const querySnapshot = await getDocs(q);
 	const exists = querySnapshot.docs[0]?.exists();
 	const data = querySnapshot.docs[0]?.data();
 
-	if (!exists) throw error(404, 'that user does not exist!');
+	if (!exists) throw error(404, 'That user does not exist!');
 
 	if (!data.published) throw error(403, `The profile of @${data.username} is not public!`);
 
