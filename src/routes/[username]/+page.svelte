@@ -1,7 +1,7 @@
 <script lang="ts">
     import AnimatedRoute from '$lib/components/AnimatedRoute.svelte';
 	import UserLink from '$lib/components/UserLink.svelte';
-import type { PageData } from './$types';
+    import type { PageData } from './$types';
     
     export let data: PageData;
 </script>
