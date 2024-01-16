@@ -2,16 +2,17 @@
     import { auth, user } from '$lib/firebase';
     import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
-    async function signInWithGoogle() {
-    const provider = new GoogleAuthProvider();
+    
+    async function logInWithGoogle() {
+      const provider = new GoogleAuthProvider();
     const credential = await signInWithPopup(auth, provider);
+
     const idToken = await credential.user.getIdToken();
 
     const res = await fetch("/api/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
       },
       body: JSON.stringify({ idToken }),
     });
@@ -30,5 +31,5 @@
   <p class="text-center text-success">You are logged in</p>
   <button class="btn btn-warning" on:click={() => signOut(auth)}>Sign out</button>
 {:else}
-  <button on:click={signInWithGoogle} class='btn'>Sign in with Google</button>
+  <button on:click={logInWithGoogle} class='btn'>Sign in with Google</button>
 {/if}

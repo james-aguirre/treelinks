@@ -15,7 +15,6 @@
       const storageRef = ref(storage, `users/${$user!.uid}/profile.png`);
       const result = await uploadBytes(storageRef, file);
       const url = await getDownloadURL(result.ref);
-  
       await updateDoc(doc(db, "users", $user!.uid), { photoURL: url });
       isUploading = false;
     }
@@ -23,7 +22,6 @@
   
   <AuthCheck>
     <h2 class="card-title">Upload a Profile Photo</h2>
-    
     <form class="max-w-screen-md w-full">
       <div class="form-control w-full max-w-xs my-10 mx-auto text-center">
         <img
@@ -49,6 +47,5 @@
         {/if}
       </div>
     </form>
-  
     <a {href} class="btn btn-primary"> Finish </a>
   </AuthCheck>
